@@ -15,9 +15,11 @@ export default function Home() {
         <div className="font-abril-fatface text-3xl">Tieron</div>
         <div>
           <div className="flex items-center justify-center space-x-3">
-            <button className="bg-black h-[39px] w-[139px] text-white rounded-[8px] font-open-sans text-[14px]">
-              Create Tieron
-            </button>
+            <Link to="/new">
+              <button className="bg-black h-[39px] w-[139px] text-white rounded-[8px] font-open-sans text-[14px]">
+                Create Tieron
+              </button>
+            </Link>
             <button
               onClick={toggleDropdown}
               className="bg-white p-[3px] rounded-full"
@@ -43,7 +45,7 @@ export default function Home() {
                       Dashboard
                     </Link>
                     <button
-                    onClick={() => nhost.auth.signOut()}
+                      onClick={() => nhost.auth.signOut()}
                       className="text-center w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       role="menuitem"
                     >

@@ -7,6 +7,7 @@ import CreateAccount from "./components/CreateAccount";
 import Signin from "./components/SignIn";
 import { useEffect, useState } from "react";
 import Home from "./components/Home";
+import NewTieron from "./components/NewTieron";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -19,18 +20,19 @@ function App() {
     });
   }, []);
   return (
-    <div className="App bg-[#F8F7F4] h-screen">
+    <div className="App bg-[#F8F7F4] h-screen select-none">
       <NhostProvider nhost={nhost}>
-      <Router>
-        <Routes>
-          <Route path="/signup" element={<CreateAccount />} />
-          <Route
-            path="/"
-            element={session ? <Home session={session} /> : <Signin />}
-          />
-        </Routes>
-      </Router>
-    </NhostProvider>
+        <Router>
+          <Routes>
+            <Route path="/signup" element={<CreateAccount />} />
+            <Route
+              path="/"
+              element={session ? <Home session={session} /> : <Signin />}
+            />
+            <Route path="/new" element={<NewTieron session={session} />} />
+          </Routes>
+        </Router>
+      </NhostProvider>
     </div>
   );
 }
