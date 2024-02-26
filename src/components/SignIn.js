@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { nhost } from "../lib/nhost";
+import { Link } from "react-router-dom";
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -75,9 +76,9 @@ export default function Signin() {
             Don't have an account?{" "}
           </span>
           <span>
-            <a className="font-open-sans font-bold underline" href="">
+            <Link to="signup" className="font-open-sans font-bold underline" href="">
               Sign up
-            </a>
+            </Link>
           </span>
         </div>
       </div>

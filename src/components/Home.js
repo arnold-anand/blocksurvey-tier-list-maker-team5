@@ -26,7 +26,7 @@ export default function Home() {
           <span className="font-montserrat">Welcome to </span>
           <span className="font-abril-fatface">Tieron!</span>
         </div>
-        <div className="text-[18px] text-black text-opacity-50 font-open-sans font-medium">
+        <div className="text-[18px] text-black text-opacity-50 font-open-sans font-normal">
           Rank, Share, Discover - Where Your Opinions Take Center Stage
         </div>
         <button className="bg-black h-[42px] w-[152px] text-white rounded-[8px] font-open-sans text-[14px] my-10">

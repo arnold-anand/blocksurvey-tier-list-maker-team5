@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { nhost } from "../lib/nhost";
+import { Link, useNavigate } from "react-router-dom";
+
 export default function CreateAccount() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -14,6 +17,7 @@ export default function CreateAccount() {
       // Display alert upon successful signup
       window.alert("Account created successfully! You're now logged in");
       // Redirect to sign-in page
+      navigate("/");
     } catch (error) {
       console.error("Failed to sign up", error);
     }
@@ -77,9 +81,9 @@ export default function CreateAccount() {
             Already have an account?{" "}
           </span>
           <span>
-            <a className="font-open-sans font-bold underline" href="">
+            <Link to="/" className="font-open-sans font-bold underline" href="">
               Log in
-            </a>
+            </Link>
           </span>
         </div>
       </div>
