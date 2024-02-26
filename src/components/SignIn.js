@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { nhost } from "../lib/nhost";
-export default function CreateAccount() {
+export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignup = async (event) => {
+  const handleSignin = async (event) => {
     event.preventDefault();
     try {
-      await nhost.auth.signUp({
+      const data = await nhost.auth.signIn({
         email: email,
         password: password,
       });
-      // Display alert upon successful signup
-      window.alert("Account created successfully! You're now logged in");
-      // Redirect to sign-in page
+      console.log(data);
     } catch (error) {
       console.error("Failed to sign up", error);
     }
@@ -26,7 +24,7 @@ export default function CreateAccount() {
           <span className="font-abril-fatface">Tieron!</span>
         </div>
 
-        <form action="" method="POST" onSubmit={handleSignup}>
+        <form action="" method="POST" onSubmit={handleSignin}>
           <div className="flex flex-col items-start justify-center mt-4">
             <label
               className="font-open-sans text-black text-opacity-50 text-[14px]"
@@ -69,16 +67,16 @@ export default function CreateAccount() {
             type="submit"
             className="mt-10 bg-black w-[470px] h-[48px] text-white rounded-[8px] font-open-sans font-bold"
           >
-            Create Account
+            Log in
           </button>
         </form>
         <div className="mt-5 text-[14px]">
           <span className="text-black text-opacity-50 font-open-sans">
-            Already have an account?{" "}
+            Don't have an account?{" "}
           </span>
           <span>
             <a className="font-open-sans font-bold underline" href="">
-              Log in
+              Sign up
             </a>
           </span>
         </div>
