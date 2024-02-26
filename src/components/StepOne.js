@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { nhost } from "../lib/nhost";
 
-export default function StepOne({session}) {
-    const insertTierMain = `
+export default function StepOne({ session, onComplete }) {
+  const insertTierMain = `
 mutation InsertTierMain($tier_list_name: String, $tier_list_description: String, $tier_list_category: String, $tier_list_visibility: Boolean, $tier_list_link: String, $user_id: uuid!) {
   insert_tier_main(objects: {tier_list_name: $tier_list_name, tier_list_description: $tier_list_description, tier_list_category: $tier_list_category, tier_list_visibility: $tier_list_visibility, tier_list_link: $tier_list_link, user_id: $user_id}) {
     affected_rows
@@ -18,7 +18,7 @@ mutation InsertTierMain($tier_list_name: String, $tier_list_description: String,
   }
 }
 `;
-const [name, setName] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [visibility, setVisibility] = useState(true);
@@ -27,22 +27,45 @@ const [name, setName] = useState("");
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const variables = { tier_list_name: name, tier_list_description: description, tier_list_category: category, tier_list_visibility: visibility, tier_list_link: link, user_id: session.user.id };
-    const { data, error } = await nhost.graphql.request(insertTierMain, variables);
+    const variables = {
+      tier_list_name: name,
+      tier_list_description: description,
+      tier_list_category: category,
+      tier_list_visibility: visibility,
+      tier_list_link: link,
+      user_id: session.user.id,
+    };
+    const { data, error } = await nhost.graphql.request(
+      insertTierMain,
+      variables
+    );
 
     if (data) {
-      console.log("Tier list created successfully:", data.insert_tier_main.returning);
+      console.log(
+        "Tier list created successfully:",
+        data.insert_tier_main.returning
+      );
+      // Call the onComplete prop when data is successfully returned
+      if (typeof onComplete === "function") {
+        onComplete();
+      }
     } else {
       console.log("Error creating tier list:", error);
     }
   };
+
   return (
     <div>
       <div className="font-open-sans text-[20px] mt-4">
         Create a new Tier List Template
       </div>
 
-      <form className="font-open-sans text-[14px]" action="" method="POST" onSubmit={handleSubmit}>
+      <form
+        className="font-open-sans text-[14px]"
+        action=""
+        method="POST"
+        onSubmit={handleSubmit}
+      >
         <div className="flex flex-col items-start justify-center mt-4">
           <label
             className="font-open-sans text-black text-opacity-70 text-[12px]"
@@ -94,6 +117,7 @@ const [name, setName] = useState("");
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
+            <option value="">Select a category</option>
             <option value="Movies">Movies</option>
             <option value="Food">Food</option>
             <option value="Travel">Travel</option>
@@ -114,7 +138,7 @@ const [name, setName] = useState("");
             onChange={(e) => setVisibility(e.target.value === "Public")}
           >
             <option value="Public">Public</option>
-            <option value="Public">Private</option>
+            <option value="Private">Private</option>
           </select>
           <button
             type="submit"

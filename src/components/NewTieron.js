@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+
 import { Link } from "react-router-dom";
 import StepOne from "./StepOne";
+import StepTwo from "./StepTwo";
+import StepThree from "./StepThree";
+export default function NewTieron({ session }) {
+  const [step, setStep] = useState(1);
 
-export default function NewTieron({session}) {
+  const handleStepCompletion = () => {
+    setStep(step + 1);
+  };
   return (
     <div className="">
       <div className="flex w-full items-start p-7">
@@ -33,33 +40,55 @@ export default function NewTieron({session}) {
       <div className="h-[1px] bg-gray-200"></div>
 
       <div className="flex items-center justify-center space-x-20">
-        <div className="w-[260px] h-[282px] shadow-md rounded-[8px] my-10 flex flex-col justify-between items-start p-5 text-left">
-          <button className="text-left">
-            <div>
-              <div className="font-open-sans text-[18px]">Step 1</div>
-              <div className="font-open-sans text-[12px] text-gray-400">
-                Describe Tier List
+        <div className="flex items-center justify-center space-x-20">
+          <div className="w-[260px] h-[282px] shadow-md rounded-[8px] my-10 flex flex-col justify-between items-start p-5 text-left">
+            <button className="text-left w-full">
+              <div
+                className={`rounded-[8px] p-2 ${
+                  step === 1 ? "bg-black bg-opacity-[6%]" : ""
+                }`}
+              >
+                <div className="font-open-sans text-[18px]">Step 1</div>
+                <div className="font-open-sans text-[12px] text-gray-400">
+                  Describe Tier List
+                </div>
               </div>
-            </div>
-          </button>
-          <button className="text-left">
-            <div>
-              <div className="font-open-sans text-[18px]">Step 2</div>
-              <div className="font-open-sans text-[12px] text-gray-400">
-                Setup Tiers
+            </button>
+            <button className="text-left w-full">
+              <div
+                className={`rounded-[8px] p-2 ${
+                  step === 2 ? "bg-black bg-opacity-[6%]" : ""
+                }`}
+              >
+                <div className="font-open-sans text-[18px]">Step 2</div>
+                <div className="font-open-sans text-[12px] text-gray-400">
+                  Setup Tiers
+                </div>
               </div>
-            </div>
-          </button>
-          <button className="text-left">
-            <div>
-              <div className="font-open-sans text-[18px]">Step 3</div>
-              <div className="font-open-sans text-[12px] text-gray-400">
-                Choose Images
+            </button>
+            <button className="text-left w-full">
+              <div
+                className={`rounded-[8px] p-2 ${
+                  step === 3 ? "bg-black bg-opacity-[6%]" : ""
+                }`}
+              >
+                <div className="font-open-sans text-[18px]">Step 3</div>
+                <div className="font-open-sans text-[12px] text-gray-400">
+                  Choose Images
+                </div>
               </div>
-            </div>
-          </button>
+            </button>
+          </div>
+          {step === 1 && (
+            <StepOne session={session} onComplete={handleStepCompletion} />
+          )}
+          {step === 2 && (
+            <StepTwo session={session} onComplete={handleStepCompletion} />
+          )}
+          {step === 3 && (
+            <StepThree session={session} onComplete={handleStepCompletion} />
+          )}
         </div>
-        <StepOne session={session}></StepOne>
       </div>
     </div>
   );
