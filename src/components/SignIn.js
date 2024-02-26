@@ -20,7 +20,7 @@ export default function Signin() {
     <div>
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="text-3xl text-left">
-          <span className="font-montserrat">Welcome to </span>
+          <span className="font-montserrat">Welcome Back to </span>
           <span className="font-abril-fatface">Tieron!</span>
         </div>
 
