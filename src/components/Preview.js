@@ -267,12 +267,14 @@ export default function Preview() {
             Remove from Tier
           </button>
 
+          <Link to="/dashboard">
           <button
             onClick={handleRemoveFromTier}
             className="border-[1px] bg-black text-white border-black w-[160px] h-[35px] rounded-[8px] mt-[8px] mx-5"
           >
             Submit
           </button>
+          </Link>
         </div>
       </div>
       {/* Share  */}
