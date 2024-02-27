@@ -38,7 +38,7 @@ export default function StepThree() {
       <div className="font-open-sans text-[20px] my-3 text-left">
         Upload your Images
       </div>
-      <div className="flex items-center justify-between mr-20">
+      <div className="flex items-center justify-between">
         <div className="w-[578px] h-[184px] relative">
           <input
             style={{
