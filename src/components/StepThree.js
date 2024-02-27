@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function StepThree() {
   const inputFile = useRef(null);
@@ -37,10 +38,15 @@ export default function StepThree() {
       <div className="font-open-sans text-[20px] my-3 text-left">
         Upload your Images
       </div>
-      <div className="flex items-center justify-center space-x-5">
+      <div className="flex items-center justify-between mr-20">
         <div className="w-[578px] h-[184px] relative">
           <input
-            style={{ position: "absolute", width: "100%", height: "100%", opacity: 0 }}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              opacity: 0,
+            }}
             type="file"
             id="my-file"
             ref={inputFile}
@@ -120,7 +126,8 @@ export default function StepThree() {
         Image Gallery (No. of files uploaded: {images.length})
       </div>
       {/* Render images and thumbnail here */}
-      <div className="flex space-x-3">
+      <div className="flex space-x-3 space-y-3 flex-wrap w-[60%]">
+        <div></div>
         {images.map((image, index) => (
           <img
             key={index}
@@ -141,6 +148,16 @@ export default function StepThree() {
             className="max-h-32 max-w-32 object-cover my-3 rounded-[8px]"
           />
         )}
+      </div>
+      <div className="flex items-start">
+        <Link to="/preview">
+          <button
+            className="w-[107px] h-[39px] bg-black rounded-[8px] text-white text-[12px] mt-4"
+            // onClick={handleContinue}
+          >
+            Continue
+          </button>
+        </Link>
       </div>
     </div>
   );

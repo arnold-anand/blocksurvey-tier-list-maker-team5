@@ -8,6 +8,7 @@ import Signin from "./components/SignIn";
 import { useEffect, useState } from "react";
 import Home from "./components/Home";
 import NewTieron from "./components/NewTieron";
+import Preview from "./components/Preview";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -30,6 +31,7 @@ function App() {
               element={session ? <Home session={session} /> : <Signin />}
             />
             <Route path="/new" element={<NewTieron session={session} />} />
+            <Route path="/preview" element={<Preview />} />
           </Routes>
         </Router>
       </NhostProvider>
