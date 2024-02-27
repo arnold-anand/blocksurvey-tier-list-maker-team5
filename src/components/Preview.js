@@ -4,10 +4,67 @@ import { nhost } from "../lib/nhost";
 
 export default function Preview() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedTier, setSelectedTier] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [tierImages, setTierImages] = useState({
+    S: [],
+    A: [],
+    B: [],
+    C: [],
+    D: [],
+  });
+  const [imageGallery, setImageGallery] = useState([1, 2, 3, 4, 5, 6, 7]);
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
+
+  const handleTierClick = (tier) => {
+    setSelectedTier(tier);
+  };
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
+
+  const handleAddToTier = () => {
+    if (selectedTier && selectedImage) {
+      // Update the tierImages state with the selected image
+      setTierImages((prevTierImages) => ({
+        ...prevTierImages,
+        [selectedTier.id]: [...prevTierImages[selectedTier.id], selectedImage],
+      }));
+
+      // Remove the selected image from the image gallery
+      setImageGallery((prevImageGallery) =>
+        prevImageGallery.filter((img) => img !== selectedImage)
+      );
+
+      // Clear selectedImage
+      setSelectedImage(null);
+    }
+  };
+
+  const handleRemoveFromTier = () => {
+    if (selectedTier && selectedImage) {
+      // Remove the selected image from the tier
+      setTierImages((prevTierImages) => ({
+        ...prevTierImages,
+        [selectedTier.id]: prevTierImages[selectedTier.id].filter(
+          (img) => img !== selectedImage
+        ),
+      }));
+
+      // Add the selected image back to the image gallery
+      setImageGallery((prevImageGallery) =>
+        [...prevImageGallery, selectedImage].sort()
+      );
+
+      // Clear selectedImage
+      setSelectedImage(null);
+    }
+  };
+
   return (
     <div className="h-max bg-[#F8F7F4]">
       <div className="flex items-center justify-between p-6">
@@ -89,56 +146,43 @@ export default function Preview() {
         <div className="w-full h-[1px] bg-black bg-opacity-[10%] my-[16px]"></div>
         {/* Tiers */}
         <div className="flex flex-col items-center space-y-[8px]">
-          <div
-            className="w-full h-[84px] bg-black bg-opacity-[6%] 
-          rounded-[8px] flex items-center justify-start p-[10px]"
-          >
-            <div className="w-[64px] h-[64px] bg-black bg-opacity-[10%] text-black font-open-sans text-[24px] rounded-[8px] py-3">
-              S
+          {/* Tier elements */}
+          {[
+            { id: "S", name: "S" },
+            { id: "A", name: "A" },
+            { id: "B", name: "B" },
+            { id: "C", name: "C" },
+            { id: "D", name: "D" },
+          ].map((tier) => (
+            <div
+              key={tier.id}
+              onClick={() => handleTierClick(tier)}
+              className={`w-full h-[84px] bg-black bg-opacity-[6%] 
+      rounded-[8px] flex items-center justify-start p-[10px] ${
+        selectedTier && selectedTier.id === tier.id
+          ? "border-2 border-blue-500"
+          : ""
+      }`}
+            >
+              <div className="w-[64px] h-[64px] bg-black bg-opacity-[10%] text-black font-open-sans text-[24px] rounded-[8px] py-3">
+                {tier.name}
+              </div>
+              {/* for images */}
+              {tierImages[tier.id].map((image, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleImageClick(image)}
+                  className="w-[64px] h-[64px] bg-black bg-opacity-[10%] text-black font-open-sans text-[24px] rounded-[8px] py-3 mx-1 cursor-pointer"
+                >
+                  <img
+                    src={image}
+                    alt={`Image ${index + 1}`}
+                    className="w-full h-full object-cover rounded-[8px]"
+                  />
+                </div>
+              ))}
             </div>
-            {/* for images */}
-            <div></div>
-          </div>
-          <div
-            className="w-full h-[84px] bg-black bg-opacity-[6%] 
-          rounded-[8px] flex items-center justify-start p-[10px]"
-          >
-            <div className="w-[64px] h-[64px] bg-black bg-opacity-[10%] text-black font-open-sans text-[24px] rounded-[8px] py-3">
-              A
-            </div>
-            {/* for images */}
-            <div></div>
-          </div>
-          <div
-            className="w-full h-[84px] bg-black bg-opacity-[6%] 
-          rounded-[8px] flex items-center justify-start p-[10px]"
-          >
-            <div className="w-[64px] h-[64px] bg-black bg-opacity-[10%] text-black font-open-sans text-[24px] rounded-[8px] py-3">
-              B
-            </div>
-            {/* for images */}
-            <div></div>
-          </div>
-          <div
-            className="w-full h-[84px] bg-black bg-opacity-[6%] 
-          rounded-[8px] flex items-center justify-start p-[10px]"
-          >
-            <div className="w-[64px] h-[64px] bg-black bg-opacity-[10%] text-black font-open-sans text-[24px] rounded-[8px] py-3">
-              C
-            </div>
-            {/* for images */}
-            <div></div>
-          </div>
-          <div
-            className="w-full h-[84px] bg-black bg-opacity-[6%] 
-          rounded-[8px] flex items-center justify-start p-[10px]"
-          >
-            <div className="w-[64px] h-[64px] bg-black bg-opacity-[10%] text-black font-open-sans text-[24px] rounded-[8px] py-3">
-              D
-            </div>
-            {/* for images */}
-            <div></div>
-          </div>
+          ))}
         </div>
 
         {/* Image Gallery */}
@@ -147,11 +191,55 @@ export default function Preview() {
           Image Gallery
         </div>
 
-        <div className="h-[165px] w-full bg-black bg-opacity-[6%] rounded-[8px] p-[10px]">
-          <div className="w-[65px] h-[65px] bg-black bg-opacity-[10%] rounded-[8px]">
+        <div className="h-[165px] w-full bg-black bg-opacity-[6%] rounded-[8px] p-[10px] flex flex-wrap items-center space-x-3">
+          {/* Image elements */}
+          {[
+            "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_750/https://assets.designhill.com/design-blog/wp-content/uploads/2022/10/1-2.jpg",
+            "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_750/https://assets.designhill.com/design-blog/wp-content/uploads/2022/10/1-3.jpg",
+            "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_750/https://assets.designhill.com/design-blog/wp-content/uploads/2022/10/1-51.jpg",
+            "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_750/https://assets.designhill.com/design-blog/wp-content/uploads/2022/10/1-50.jpg",
+            "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_750/https://assets.designhill.com/design-blog/wp-content/uploads/2022/10/1-49.jpg",
+            "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_750/https://assets.designhill.com/design-blog/wp-content/uploads/2022/10/1-47.jpg",
+            "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_750/https://assets.designhill.com/design-blog/wp-content/uploads/2022/10/1-46.jpg",
+          ].map((image, index) => (
+            <div
+              key={index}
+              onClick={() => handleImageClick(image)}
+              className={`w-[65px] h-[65px] bg-black bg-opacity-[10%] rounded-[8px] ${
+                selectedImage === image ? "border-2 border-blue-500" : ""
+              } cursor-pointer`}
+            >
+              <img
+                src={image}
+                alt={`Image ${index + 1}`}
+                className="w-full h-full object-cover rounded-[8px]"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="py-5">
+          {/* Add to Tier button */}
+          <button
+            onClick={handleAddToTier}
+            className="border-[1px] border-black w-[120px] h-[35px] rounded-[8px] mt-[16px]"
+          >
+            Add to Tier
+          </button>
 
-            {/* Render all the images here */}
-          </div>
+          {/* Remove from Tier button */}
+          <button
+            onClick={handleRemoveFromTier}
+            className="border-[1px] border-black w-[160px] h-[35px] rounded-[8px] mt-[8px] mx-5"
+          >
+            Remove from Tier
+          </button>
+
+          <button
+            onClick={handleRemoveFromTier}
+            className="border-[1px] bg-black text-white border-black w-[160px] h-[35px] rounded-[8px] mt-[8px] mx-5"
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>
