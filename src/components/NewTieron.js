@@ -8,7 +8,7 @@ export default function NewTieron({ session }) {
   const [step, setStep] = useState(1);
 
   const handleStepCompletion = () => {
-    setStep(step + 1);
+    setStep(step +1);
   };
   return (
     <div className="">
