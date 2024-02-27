@@ -47,7 +47,7 @@ mutation InsertTierMain($tier_list_name: String, $tier_list_description: String,
       );
       // Call the onComplete prop when data is successfully returned
       if (typeof onComplete === "function") {
-        onComplete();
+        onComplete(data.insert_tier_main.returning[0].tier_list_id);
       }
     } else {
       console.log("Error creating tier list:", error);

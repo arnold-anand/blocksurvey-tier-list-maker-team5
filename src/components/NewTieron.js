@@ -6,13 +6,15 @@ import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 export default function NewTieron({ session }) {
   const [step, setStep] = useState(1);
+  const [tierListId, setTierListId] = useState(null);
 
-  const handleStepCompletion = () => {
-    setStep(step +1);
+  const handleStepCompletion = (tierListIdFromStepOne) => {
+    setTierListId(tierListIdFromStepOne);
+    setStep(step + 1);
   };
   return (
     <div className="">
-      <div className="flex w-full items-start p-7">
+      <div className="flex w-full items-start p-3 ">
         <button className="w-[73px] h-[30px] rounded-[8px] shadow-md">
           <div className="flex items-center justify-center">
             <div>
@@ -80,11 +82,22 @@ export default function NewTieron({ session }) {
             </button>
           </div>
           {step === 1 && (
-            <StepOne session={session} onComplete={handleStepCompletion} />
+            <StepOne
+              session={session}
+              onComplete={(tierListIdFromStepOne) =>
+                handleStepCompletion(tierListIdFromStepOne)
+              }
+            />
           )}
           {step === 2 && (
-            <StepTwo session={session} onComplete={handleStepCompletion} />
+            <StepTwo
+              session={session}
+              tierListId={tierListId}
+              onContinue={() => handleStepCompletion(tierListId)}
+              onBack={() => setStep(step - 1)}
+            />
           )}
+
           {step === 3 && (
             <StepThree session={session} onComplete={handleStepCompletion} />
           )}

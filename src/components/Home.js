@@ -66,9 +66,11 @@ export default function Home() {
         <div className="text-[18px] text-black text-opacity-50 font-open-sans font-normal">
           Rank, Share, Discover - Where Your Opinions Take Center Stage
         </div>
-        <button className="bg-black h-[42px] w-[152px] text-white rounded-[8px] font-open-sans text-[14px] my-10">
-          Create Tieron
-        </button>
+        <Link to="/new">
+          <button className="bg-black h-[42px] w-[152px] text-white rounded-[8px] font-open-sans text-[14px] my-10">
+            Create Tieron
+          </button>
+        </Link>
       </div>
     </div>
   );
