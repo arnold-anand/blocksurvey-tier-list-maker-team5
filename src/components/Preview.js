@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { nhost } from "../lib/nhost";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Preview() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedTier, setSelectedTier] = useState(null);
@@ -64,6 +65,35 @@ export default function Preview() {
       setSelectedImage(null);
     }
   };
+
+  const [shareModalVisible, setShareModalVisible] = useState(false);
+
+  const openShareModal = () => {
+    setShareModalVisible(true);
+  };
+
+  const closeShareModal = () => {
+    setShareModalVisible(false);
+  };
+
+  const handleCopyLink = () => {
+    const linkToCopy = "https://tieron.com/140/best-movies-of-the-21st-century"; // Replace with your actual link
+
+    navigator.clipboard.writeText(linkToCopy).then(
+      function () {
+        toast.success("Link copied to clipboard!", {
+          position: "bottom-right", // Provide the position as a string
+        });
+      },
+      function (err) {
+        toast.error("Failed to copy link!", {
+          position: "bottom-right", // Provide the position as a string
+        });
+        console.error("Unable to copy to clipboard.", err);
+      }
+    );
+  };
+
 
   return (
     <div className="h-max bg-[#F8F7F4]">
@@ -134,11 +164,14 @@ export default function Preview() {
               <div className="font-open-sans text-[16px]">Category: Movies</div>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center">
             <button className="border-[1px] border-black w-[71px] h-[35px] rounded-[8px]">
               Edit
             </button>
-            <button className="border-[1px] border-black w-[71px] h-[35px] rounded-[8px] mt-[8px]">
+            <button
+              onClick={openShareModal}
+              className="border-[1px] border-black w-[71px] h-[35px] rounded-[8px] mt-[8px] mx-5"
+            >
               Share
             </button>
           </div>
@@ -242,6 +275,59 @@ export default function Preview() {
           </button>
         </div>
       </div>
+      {/* Share  */}
+      {shareModalVisible && (
+        <div className="bg-black bg-opacity-[20%] absolute top-0 h-screen w-full">
+          <div className="flex items-center justify-center h-screen">
+            <div className="w-[520px] h-[444px] bg-white rounded-[8px]">
+              <div className="px-[20px] py-[16px] flex items-center justify-between">
+                <div className="font-montserrat text-[18px]">
+                  Share your Tieron List!
+                </div>
+                {/* Close button */}
+                <button onClick={closeShareModal}>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </div>
+                </button>
+              </div>
+              <div className="h-[1px] bg-black bg-opacity-[10%]"></div>
+              <div className="mt-[54px] mx-[65px] font-open-sans text-[14px]">
+                Share a link to this Template without including your ranking
+              </div>
+              <div className="w-[387px] h-[39px] bg-black bg-opacity-[4%] mx-[66px] rounded-[8px] mt-[16px] font-open-sans text-[14px] pt-2">
+                https://tieron.com/140/best-movies-of-the-21st-century
+              </div>
+              <div>
+                <button  onClick={handleCopyLink} className="w-[97px] h-[35px] border-[1px] border-black rounded-[8px] mt-[12px]">
+                  Copy Link
+                </button>
+              </div>
+              <div className="flex items-center justify-center">
+                <img
+                  src="qr.png"
+                  alt=""
+                  className="w-[150px] h-[150px] rounded-[8px]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }
